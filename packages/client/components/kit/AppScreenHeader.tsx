@@ -28,48 +28,56 @@ const AppScreenHeader: React.FC<AppScreenHeaderProps> = ({
     const sx = useSx();
 
     return (
-        <View
-            sx={{
-                paddingTop: insetTop,
-                paddingLeft: 'l',
-                paddingRight: 'l',
-            }}
-        >
+        <View sx={{ paddingX: 'l' }}>
             <View
                 sx={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: 'l',
-                    paddingTop: 'm',
+                    paddingTop: insetTop,
+                    paddingX: 'l',
+
+                    maxWidth: [null, 420, 720],
+                    width: '100%',
+                    marginX: 'auto',
+                    borderLeftWidth: 1,
+                    borderRightWidth: 1,
+                    borderColor: 'greyLighter',
                 }}
             >
-                {props.canGoBack === true && (
-                    <TouchableOpacity
-                        accessibilityLabel="Go back"
-                        onPress={props.goBack}
-                        style={sx({
-                            marginRight: 'l',
-                        })}
-                    >
-                        <Ionicons
-                            name="chevron-back"
+                <View
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginBottom: 'l',
+                        paddingTop: 'm',
+                    }}
+                >
+                    {props.canGoBack === true && (
+                        <TouchableOpacity
+                            accessibilityLabel="Go back"
+                            onPress={props.goBack}
                             style={sx({
-                                fontSize: 'l',
-                                color: 'white',
+                                marginRight: 'l',
                             })}
+                        >
+                            <Ionicons
+                                name="chevron-back"
+                                style={sx({
+                                    fontSize: 'l',
+                                    color: 'white',
+                                })}
+                            />
+                        </TouchableOpacity>
+                    )}
+
+                    <AppScreenHeaderTitle>{title}</AppScreenHeaderTitle>
+
+                    {HeaderRight && (
+                        <HeaderRight
+                            sx={{
+                                alignSelf: 'flex-end',
+                            }}
                         />
-                    </TouchableOpacity>
-                )}
-
-                <AppScreenHeaderTitle>{title}</AppScreenHeaderTitle>
-
-                {HeaderRight && (
-                    <HeaderRight
-                        sx={{
-                            alignSelf: 'flex-end',
-                        }}
-                    />
-                )}
+                    )}
+                </View>
             </View>
         </View>
     );

@@ -1,5 +1,5 @@
 import { useInterpret, useSelector } from '@xstate/react';
-import { Button, Text, useSx, View } from 'dripsy';
+import { Button, ScrollView, Text, useSx, View } from 'dripsy';
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,6 @@ import {
     AppScreenContainer,
     AppScreenHeader,
     SvgImage,
-    Typo,
 } from '../../components/kit';
 import { MyProfileScreenProps } from '../../types';
 import { getFakeUserID } from '../../contexts/SocketContext';
@@ -32,23 +31,40 @@ const MyProfileInformationSection: React.FC<MyProfileInformationSectionProps> =
         }
 
         return (
-            <View
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    width: '100%',
-                }}
-            >
+            <View sx={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity
-                    onPress={() => onPress()}
+                    onPress={onPress}
                     style={sx({
-                        backgroundColor: 'gold',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                         padding: 'l',
-                        borderRadius: 's',
-                        textAlign: 'center',
                     })}
                 >
-                    <Text>{`${informationName} ${informationCounter}`}</Text>
+                    <Text
+                        sx={{
+                            color: 'white',
+                            fontWeight: 'bold',
+                            marginRight: 'l',
+                            fontSize: 's',
+                        }}
+                    >
+                        {informationName}
+                    </Text>
+
+                    <Text
+                        sx={{
+                            borderRadius: 'full',
+                            paddingX: 'l',
+                            paddingY: 's',
+                            backgroundColor: 'greyLight',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            fontSize: 's',
+                        }}
+                    >
+                        {informationCounter}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
@@ -111,31 +127,31 @@ const MyProfileScreen: React.FC<MyProfileScreenProps> = ({ navigation }) => {
 
     const myProfileInformationSections: MyProfileInformationSectionProps[] = [
         {
-            informationName: 'followers',
+            informationName: 'Followers',
             onPress: () => {
                 console.log('followers section pressed');
             },
             informationCounter: myProfileInformation.followersCounter,
         },
         {
-            informationName: 'following',
+            informationName: 'Following',
             onPress: () => {
                 console.log('following section pressed');
             },
             informationCounter: myProfileInformation.followingCounter,
         },
         {
-            informationName: 'playlists',
+            informationName: 'Playlists',
             onPress: () => {
                 console.log('paylists section pressed');
             },
             informationCounter: myProfileInformation.playlistsCounter,
         },
-        {
-            informationName: 'devices',
-            onPress: handleGoToMyDevices,
-            informationCounter: myProfileInformation.devicesCounter,
-        },
+        // {
+        //     informationName: 'Devices',
+        //     onPress: handleGoToMyDevices,
+        //     informationCounter: myProfileInformation.devicesCounter,
+        // },
     ];
 
     return (
@@ -170,8 +186,12 @@ const MyProfileScreen: React.FC<MyProfileScreenProps> = ({ navigation }) => {
                         flex: 1,
                         paddingX: 'l',
                         maxWidth: [null, 420, 720],
+                        width: '100%',
                         marginX: 'auto',
                         alignItems: 'center',
+                        borderLeftWidth: 1,
+                        borderRightWidth: 1,
+                        borderColor: 'greyLighter',
                     }}
                 >
                     <View
@@ -193,17 +213,48 @@ const MyProfileScreen: React.FC<MyProfileScreenProps> = ({ navigation }) => {
                         />
                     </View>
 
-                    <Typo>{userID} my profile</Typo>
-                    {myProfileInformationSections.map(
-                        ({ informationName, onPress, informationCounter }) => (
-                            <MyProfileInformationSection
-                                key={`${userID}_${informationName}`}
-                                informationName={informationName}
-                                onPress={onPress}
-                                informationCounter={informationCounter}
-                            />
-                        ),
-                    )}
+                    <Text
+                        sx={{
+                            color: 'white',
+                            marginBottom: 'xl',
+                            fontSize: 'l',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {myProfileInformation.userNickname}
+                    </Text>
+
+                    <ScrollView
+                        horizontal
+                        contentContainerStyle={{ width: '100%' }}
+                        sx={{
+                            width: '100%',
+                            flexGrow: 0,
+                        }}
+                    >
+                        {myProfileInformationSections.map(
+                            ({
+                                informationName,
+                                onPress,
+                                informationCounter,
+                            }) => (
+                                <View
+                                    sx={{
+                                        // padding: 'm',
+                                        flexGrow: [undefined, undefined, 1],
+                                        flexShrink: [0, 0, 1],
+                                    }}
+                                >
+                                    <MyProfileInformationSection
+                                        key={informationName}
+                                        informationName={informationName}
+                                        onPress={onPress}
+                                        informationCounter={informationCounter}
+                                    />
+                                </View>
+                            ),
+                        )}
+                    </ScrollView>
                 </View>
             </AppScreenContainer>
         </AppScreen>
