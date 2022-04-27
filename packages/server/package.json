@@ -9,7 +9,7 @@
   "scripts": {
     "build:tsc": "scripty",
     "build": "node ace build --production",
-    "start": "cd ../../ && yarn build:tsc && cd packages/server && yarn build && yarn start:server",
+    "start": "cd ../types && yarn build:tsc && cd ../server && yarn build && yarn start:server",
     "start:server": "node server.js",
     "dev": "node ace serve --watch",
     "setup:database": "node ace migration:rollback --batch 0 && node ace migration:run && node ace db:seed",
